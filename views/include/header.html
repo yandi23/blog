@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>博客</title>
+    <link rel='stylesheet' href='/lib/bootstrap/dist/css/bootstrap.css'/>
+</head>
+<body class="container">
+<nav class="navbar navbar-inverse">
+    <!--占用100%的宽度-->
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">博客</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!--collapse：可隐藏的-->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <%
+                if(user){
+                %>
+                <li><a href="/articles/add">发表文章</a></li>
+                <li><a href="/users/logout">退出</a></li>
+                <%
+                }else{
+                %>
+                <li><a href="/users/reg">注册</a></li>
+                <li><a href="/users/login">登录</a></li>
+                <%
+                }
+                %>
+                <!--class = active：激活状态-->
+            </ul>
+            <form action="/" method="get" class="navbar-form navbar-left pull-right">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="请输入关键字" name="keyword" value="<%=keyword%>">
+                </div>
+                <input name="search" type="submit" class="btn btn-primary" value="搜索">
+            </form>
+                <div>
+                        <!--<img class="img-responsive" src="<%=user.avatar%>" alt="">-->
+                    <a class="btn btn-success"><%=user.username%></a>
+                </div>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+<%
+if(success){
+%>
+<div class="alert alert-success" role="alert"><%=success%></div>
+<%
+}
+%>
+<%
+if(error){
+%>
+<div class="alert alert-danger" role="alert"><%=error%></div>
+<%
+}
+%>
+
+

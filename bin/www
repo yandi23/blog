@@ -3,16 +3,19 @@
 /**
  * Module dependencies.
  */
-
+//引入app = express()
 var app = require('../app');
-var debug = require('debug')('blog:server');
+//日志记录器：通过修改DEBUG环境变量来改变日志的输出
+var debug = require('debug')('Blog:server');
 var http = require('http');
 
 /**
  * Get port from environment and store in Express.
+ * 从环境变量中获取端口号并保存到app中
  */
 
 var port = normalizePort(process.env.PORT || '3000');
+//设置保存到app的一个私有属性中
 app.set('port', port);
 
 /**
@@ -22,6 +25,7 @@ app.set('port', port);
 var server = http.createServer(app);
 
 /**
+ * 监听提供的端口
  * Listen on provided port, on all network interfaces.
  */
 
@@ -34,19 +38,19 @@ server.on('listening', onListening);
  */
 
 function normalizePort(val) {
-  var port = parseInt(val, 10);
+    var port = parseInt(val, 10);
 
-  if (isNaN(port)) {
-    // named pipe
-    return val;
-  }
+    if (isNaN(port)) {
+        // named pipe
+        return val;
+    }
 
-  if (port >= 0) {
-    // port number
-    return port;
-  }
+    if (port >= 0) {
+        // port number
+        return port;
+    }
 
-  return false;
+    return false;
 }
 
 /**
@@ -54,27 +58,30 @@ function normalizePort(val) {
  */
 
 function onError(error) {
-  if (error.syscall !== 'listen') {
-    throw error;
-  }
+    if (error.syscall !== 'listen') {
+        throw error;
+    }
 
-  var bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port;
+    var bind = typeof port === 'string'
+        ? 'Pipe ' + port
+        : 'Port ' + port;
 
-  // handle specific listen errors with friendly messages
-  switch (error.code) {
-    case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
-      process.exit(1);
-      break;
-    case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
-      process.exit(1);
-      break;
-    default:
-      throw error;
-  }
+    // handle specific listen errors with friendly messages
+    switch (error.code) {
+        //没有权限 在Linux用户不能使用1000一下的端口
+        case 'EACCES':
+            console.error(bind + ' requires elevated privileges');
+            //退出进程，1为错误退出
+            process.exit(1);
+            break;
+        //Error Address in use 端口被占用
+        case 'EADDRINUSE':
+            console.error(bind + ' is already in use');
+            process.exit(1);
+            break;
+        default:
+            throw error;
+    }
 }
 
 /**
@@ -82,9 +89,10 @@ function onError(error) {
  */
 
 function onListening() {
-  var addr = server.address();
-  var bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+    //先获取到绑定的地址
+    var addr = server.address();
+    var bind = typeof addr === 'string'
+        ? 'pipe ' + addr
+        : 'port ' + addr.port;
+    debug('Listening on ' + bind);
 }
